@@ -1,0 +1,25 @@
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#8bbcff" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+  <!-- floppy ears -->
+  <ellipse cx="60" cy="120" rx="48" ry="22" fill="#dff0ff" filter="url(#shadow)"/>
+  <ellipse cx="196" cy="120" rx="48" ry="22" fill="#dff0ff" filter="url(#shadow)"/>
+  <!-- cloud body -->
+  <circle cx="100" cy="120" r="38" fill="#ffffff" />
+  <circle cx="156" cy="120" r="44" fill="#ffffff" />
+  <circle cx="128" cy="104" r="36" fill="#ffffff" />
+  <ellipse cx="128" cy="140" rx="60" ry="30" fill="#ffffff" />
+  <!-- face -->
+  <circle cx="110" cy="118" r="6" fill="#6aa9ff"/>
+  <circle cx="146" cy="118" r="6" fill="#6aa9ff"/>
+  <circle cx="128" cy="132" r="4" fill="#ffb7c8"/>
+  <!-- pencil -->
+  <g transform="rotate(-20 190 170) translate(120 75)">
+    <rect x="40" y="90" width="80" height="10" rx="4" fill="#ffc04d" stroke="#d99a00" stroke-width="2"/>
+    <polygon points="120,90 135,95 120,100" fill="#f2d0a7" stroke="#b68a5a" stroke-width="2"/>
+    <rect x="40" y="90" width="10" height="10" fill="#ff7aa2"/>
+  </g>
+</svg>
