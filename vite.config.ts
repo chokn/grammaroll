@@ -2,8 +2,10 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
 // https://vitejs.dev/config/
+// Use VITE_BASE when provided (e.g., by CI for GitHub Pages), otherwise default to '/'
+const base = process.env.VITE_BASE || "/";
+
 export default defineConfig({
   plugins: [react()],
-  // For GitHub Pages, set base to '/<repo-name>/' e.g., '/eleanor-grammar/'
-  base: "/grammaroll/",
+  base,
 });
