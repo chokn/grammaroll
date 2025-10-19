@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import logo from './assets/logo.svg'
 import { BANK, type Sentence } from './data/bank'
 import { grade, type GradeResponse } from './lib/scoring'
 import ModeToggle from './components/ModeToggle'
@@ -49,7 +50,7 @@ export default function App(){
     <div className="container">
       <div className="card">
         <div className="logo-title">
-          <img src="/src/assets/logo.svg" alt="Grammaroll cloud logo"/>
+          <img src={logo} alt="Grammaroll cloud logo"/>
           <div>
             <div className="brand">Grammaroll</div>
             <div className="tagline">Learn grammar on cloud nine ☁️</div>
@@ -73,8 +74,14 @@ export default function App(){
 
             <div className="row" style={{marginTop: 12}}>
               <button className="button ghost" onClick={()=>setRevealVerb(true)} disabled={revealVerb}>Hint: Show main verb</button>
-              <button className="button primary" onClick={submit}>Check</button>
-              <button className="button" onClick={next}>Skip</button>
+              {result?.isCorrect ? (
+                <button className="button primary" onClick={next}>Next sentence</button>
+              ) : (
+                <>
+                  <button className="button primary" onClick={submit}>Check</button>
+                  <button className="button" onClick={next}>Skip</button>
+                </>
+              )}
             </div>
 
             {result && <FeedbackCard result={result} tokens={item.tokens} />}

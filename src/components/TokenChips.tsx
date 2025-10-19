@@ -9,16 +9,19 @@ export default function TokenChips({
   onToggle: (i:number)=>void;
   verbHint?: Set<number>;
 }) {
+  const isPunct = (tok: string) => tok.length === 1 && ",.;:!?()[]{}'\"-—–".includes(tok)
   return (
     <>
       {tokens.map((t, i) => {
         const isSel = selected.has(i);
         const isVerb = verbHint?.has(i);
+        const punct = isPunct(t)
         return (
           <button
             key={i}
-            onClick={()=>onToggle(i)}
+            onClick={()=>!punct && onToggle(i)}
             aria-pressed={isSel}
+            disabled={punct}
             className={`token${isVerb ? ' verb-hint':''}`}
             title={isVerb ? 'Main verb' : undefined}
           >

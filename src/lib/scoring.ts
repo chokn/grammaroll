@@ -24,17 +24,29 @@ const iou = (a:number[], b:number[]) => {
   return union ? inter/union : 0
 }
 
+// Treat standalone punctuation tokens as neutral; students shouldn't need to select them.
+const isPunct = (tok: string) => {
+  // Common punctuation tokens present in this app's bank
+  return tok.length === 1 && ",.;:!?()[]{}'\"-—–".includes(tok)
+}
+const filterNonPunct = (indices:number[], tokens:string[]) => indices.filter(i => !isPunct(tokens[i]))
+
 export function grade(req: GradeRequest, item: Sentence): GradeResponse {
   const ans = item.spans
-  const iSub = iou(req.student.complete_subject, ans.complete_subject)
-  const iPred = iou(req.student.complete_predicate, ans.complete_predicate)
+  // Ignore punctuation for scoring fairness
+  const sSub = filterNonPunct(req.student.complete_subject, item.tokens)
+  const sPred = filterNonPunct(req.student.complete_predicate, item.tokens)
+  const aSub = filterNonPunct(ans.complete_subject, item.tokens)
+  const aPred = filterNonPunct(ans.complete_predicate, item.tokens)
+  const iSub = iou(sSub, aSub)
+  const iPred = iou(sPred, aPred)
 
   const tips: string[] = []
   if (iSub < 0.8) tips.push('Keep every word that tells more about the subject, including attached prepositional or relative clauses.')
   if (iPred < 0.8) tips.push('The complete predicate begins at the main verb and includes its objects, complements, and modifiers.')
   const crossesVerb =
-    req.student.complete_subject.some(i => ans.simple_predicate.includes(i)) ||
-    req.student.complete_predicate.some(i => ans.simple_subject.includes(i))
+    sSub.some(i => ans.simple_predicate.includes(i)) ||
+    sPred.some(i => ans.simple_subject.includes(i))
   if (crossesVerb) tips.push('Find the main verb first; the subject is before it, and the predicate begins with it.')
 
   const subjectText = item.tokens.filter((_,i)=> ans.complete_subject.includes(i)).join(' ')
