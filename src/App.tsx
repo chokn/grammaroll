@@ -4,6 +4,7 @@ import { BANK, type Sentence } from './data/bank'
 import { grade, type GradeResponse } from './lib/scoring'
 import TokenChips from './components/TokenChips'
 import FeedbackCard from './components/FeedbackCard'
+import Celebration from './components/Celebration'
 
 type Mode = 'complete_subject' | 'complete_predicate'
 
@@ -17,6 +18,7 @@ export default function App(){
   const [result, setResult] = useState<GradeResponse | null>(null)
   const [revealVerb, setRevealVerb] = useState(false)
   const [step, setStep] = useState<0 | 1 | 2>(0) // 0: subject, 1: predicate, 2: review
+  const [celebrate, setCelebrate] = useState(false)
 
   const next = () => {
     const pick = BANK[Math.floor(Math.random() * BANK.length)]
@@ -26,6 +28,7 @@ export default function App(){
     setRevealVerb(false)
     setMode('complete_subject')
     setStep(0)
+    setCelebrate(false)
   }
 
   useEffect(() => { next() }, [])
@@ -47,10 +50,12 @@ export default function App(){
     }, item)
     setResult(res)
     setStep(2)
+    if(res.isCorrect) setCelebrate(true)
   }
 
   return (
     <div className="container">
+      <Celebration visible={celebrate} onDone={()=> setCelebrate(false)} />
       <div className="card">
         <div className="logo-title">
           <img src={logo} alt="Grammaroll cloud logo"/>

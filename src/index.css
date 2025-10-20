@@ -175,3 +175,48 @@ h1{
 .split .rhs{ background:#e8f0fe; padding:2px 6px; border-radius:6px; }
 .footer{ text-align:center; color:#6b7aa6; font-size:12px; margin-top:16px; }
 .tagline{ color:#3b6ea5; font-weight:700; margin-top:4px; }
+
+/* Celebration overlay */
+.celebration-overlay{
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+}
+.celebration-sky{
+  position:absolute; inset:0;
+  background: radial-gradient(40% 40% at 50% 30%, rgba(201,229,255,0.8), rgba(201,229,255,0) 70%),
+              radial-gradient(30% 30% at 20% 10%, rgba(255,240,248,0.7), rgba(255,240,248,0) 60%);
+  opacity: 0; animation: skyfade .6s ease forwards;
+}
+@keyframes skyfade { to { opacity: 1 } }
+.celebration-emoji{
+  position:absolute; top:-10vh; transform: translateY(0);
+  animation-name: confetti-fall;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  filter: drop-shadow(0 3px 2px rgba(0,0,0,0.06));
+}
+@keyframes confetti-fall{
+  0%{ transform: translateY(-10vh) rotate(0deg); opacity:0 }
+  8%{ opacity:1 }
+  100%{ transform: translateY(110vh) rotate(360deg); opacity: 0.95 }
+}
+.celebration-message{
+  position: absolute; inset: 0; display:grid; place-items:center; text-align:center;
+  animation: popin .4s cubic-bezier(.2,1.2,.2,1) .2s both;
+}
+.celebration-gif{
+  width: clamp(160px, 35vw, 320px);
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+.celebration-message .pop{
+  font-family: 'Pacifico', cursive;
+  font-size: clamp(22px, 5vw, 40px);
+  color: #3c6db1;
+  text-shadow: 0 2px 0 #fff, 0 10px 30px rgba(90,167,255,0.35);
+}
+.celebration-message .sub{ color:#3b6ea5; font-weight:800; margin-top:6px; background:#e9f4ff; border:1px solid #c7d7ff; padding:4px 10px; border-radius:999px; display:inline-block; }
+@keyframes popin{ 0%{ transform: translateY(10px) scale(.96); opacity:0 } 100%{ transform:none; opacity:1 } }
