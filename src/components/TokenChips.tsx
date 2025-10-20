@@ -50,13 +50,13 @@ export default function TokenChips({
             onClick={()=>{ if(!readOnly && !punct) onToggle(i) }}
             aria-pressed={inSub || inPred}
             disabled={punct || readOnly}
-            className={`token${isVerb ? ' verb-hint':''}${selClass}${diffClass}`}
+            className={`token${punct ? ' token--punct' : ''}${isVerb ? ' verb-hint':''}${selClass}${diffClass}`}
             title={isVerb ? 'Main verb' : undefined}
           >
             {t}
             {badge && <span className={`sel-badge${badgeClass}`}>{badge}</span>}
-            {isExtra && <span className="diff-badge extra" title="Extra">×</span>}
-            {isMissing && <span className="diff-badge missing" title="Missing">+</span>}
+            {!punct && isExtra && <span className="diff-badge extra" title="Extra">×</span>}
+            {!punct && isMissing && <span className="diff-badge missing" title="Missing">+</span>}
           </button>
         );
       })}

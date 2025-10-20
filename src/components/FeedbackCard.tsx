@@ -41,8 +41,8 @@ export default function FeedbackCard({
           <div className="tokens">
             <TokenChips
               tokens={tokens}
-              selectedSubject={studentSubject}
-              selectedPredicate={studentPredicate}
+              selectedSubject={fStudentSubject}
+              selectedPredicate={fStudentPredicate}
               onToggle={()=>{}}
               mode={'complete_subject'}
               readOnly
@@ -55,8 +55,8 @@ export default function FeedbackCard({
           <div className="tokens">
             <TokenChips
               tokens={tokens}
-              selectedSubject={ansSub}
-              selectedPredicate={ansPred}
+              selectedSubject={fAnsSub}
+              selectedPredicate={fAnsPred}
               onToggle={()=>{}}
               mode={'complete_predicate'}
               readOnly

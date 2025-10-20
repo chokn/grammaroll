@@ -98,6 +98,16 @@ h1{
   transition: transform .06s ease, box-shadow .06s ease, background .06s ease;
   position: relative;
 }
+.token[disabled]{ cursor: default; opacity: 1; }
+.token.token--punct{
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  padding: 0 2px;
+  font-weight: 800;
+  margin-left: -6px; /* pull punctuation closer to preceding word */
+}
+.token.token--punct:hover{ box-shadow: none !important; }
 .token.selected{ transform: translateY(1px); }
 .token.selected--complete_subject{
   background: var(--subject-bg);
