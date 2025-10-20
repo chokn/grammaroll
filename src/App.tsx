@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import logo from './assets/logo.svg'
 import { BANK, type Sentence } from './data/bank'
 import { grade, type GradeResponse } from './lib/scoring'
-import ModeToggle from './components/ModeToggle'
 import TokenChips from './components/TokenChips'
 import FeedbackCard from './components/FeedbackCard'
 
@@ -17,6 +16,7 @@ export default function App(){
   })
   const [result, setResult] = useState<GradeResponse | null>(null)
   const [revealVerb, setRevealVerb] = useState(false)
+  const [step, setStep] = useState<0 | 1 | 2>(0) // 0: subject, 1: predicate, 2: review
 
   const next = () => {
     const pick = BANK[Math.floor(Math.random() * BANK.length)]
@@ -24,6 +24,8 @@ export default function App(){
     setSel({ complete_subject: new Set(), complete_predicate: new Set() })
     setResult(null)
     setRevealVerb(false)
+    setMode('complete_subject')
+    setStep(0)
   }
 
   useEffect(() => { next() }, [])
@@ -44,6 +46,7 @@ export default function App(){
       }
     }, item)
     setResult(res)
+    setStep(2)
   }
 
   return (
@@ -57,9 +60,15 @@ export default function App(){
           </div>
         </div>
         <h1>Subject vs. Predicate (Grade 5)</h1>
-        <div className="sub">Tap the words that belong to the selected part.</div>
+        <div className="sub">Follow the steps: first select the complete subject, then the complete predicate, then check.</div>
 
-        <ModeToggle mode={mode} setMode={setMode} />
+        <div className="stepper" role="group" aria-label="Steps">
+          <div className={`step ${step === 0 ? 'active' : step > 0 ? 'done' : ''}`}>1<span>Subject</span></div>
+          <div className="bar"/>
+          <div className={`step ${step === 1 ? 'active' : step > 1 ? 'done' : ''}`}>2<span>Predicate</span></div>
+          <div className="bar"/>
+          <div className={`step ${step === 2 ? 'active' : ''}`}>3<span>Check</span></div>
+        </div>
 
         {item && (
           <div style={{marginTop: 14}}>
@@ -70,7 +79,7 @@ export default function App(){
               <span className="swatch predicate"/>
               <span>Predicate</span>
             </div>
-            <div className="tokens">
+            <div className={`tokens mode--${mode}`}>
               <TokenChips
                 tokens={item.tokens}
                 selectedSubject={sel.complete_subject}
@@ -82,14 +91,21 @@ export default function App(){
             </div>
 
             <div className="row" style={{marginTop: 12}}>
-              <button className="button ghost" onClick={()=>setRevealVerb(true)} disabled={revealVerb}>Hint: Show main verb</button>
-              {result?.isCorrect ? (
-                <button className="button primary" onClick={next}>Next sentence</button>
-              ) : (
-                <>
-                  <button className="button primary" onClick={submit}>Check</button>
-                  <button className="button" onClick={next}>Skip</button>
-                </>
+              <button className="button ghost" onClick={()=>setRevealVerb(true)} disabled={revealVerb || step===0}>Hint: Show main verb</button>
+              {step > 0 && (
+                <button className="button" onClick={()=>{ setStep((s)=> (s>0 ? (s-1) as 0|1|2 : s)); setMode('complete_subject'); setResult(null); }}>Back</button>
+              )}
+              {step === 0 && (
+                <button className="button primary" disabled={sel.complete_subject.size === 0} onClick={()=>{ setStep(1); setMode('complete_predicate'); }}>Next: Predicate</button>
+              )}
+              {step === 1 && (
+                <button className="button primary" disabled={sel.complete_predicate.size === 0} onClick={submit}>Check</button>
+              )}
+              {step === 2 && (
+                <button className="button primary" onClick={next}>{result?.isCorrect ? 'Next sentence' : 'Try another'}</button>
+              )}
+              {step < 2 && (
+                <button className="button" onClick={next}>Skip</button>
               )}
             </div>
 

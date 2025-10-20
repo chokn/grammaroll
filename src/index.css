@@ -48,6 +48,27 @@ h1{
   margin-bottom: 16px;
 }
 .row{ display:flex; gap:10px; flex-wrap: wrap; }
+.stepper{ display:flex; align-items:center; gap:10px; margin: 8px 0 6px; }
+.stepper .bar{ flex:1; height:2px; background:#dbe7ff; border-radius:2px; }
+.stepper .step{
+  display:flex; align-items:center; gap:8px; font-weight:700; color:#7a93ad;
+}
+.stepper .step::before{
+  content: attr(data-step);
+}
+.stepper .step > span{ font-weight:700; font-size: 13px; }
+.stepper .step::marker{ content:'' }
+.stepper .step{ position: relative; }
+.stepper .step::after{
+  content: '';
+  display:inline-block; width: 24px; height: 24px; border-radius:50%;
+  border:2px solid #c7d7ff; background:#f3f7ff; margin-right:6px;
+}
+.stepper .step span{ margin-left: -4px; }
+.stepper .step.active{ color:#2b4760; }
+.stepper .step.done{ color:#2b4760; }
+.stepper .step.active::after{ border-color:#5aa7ff; background:#e1efff; }
+.stepper .step.done::after{ border-color:#93d0ff; background:#def1ff; }
 .button{
   padding: 10px 14px;
   border-radius: 12px;
@@ -98,6 +119,10 @@ h1{
   box-shadow: 0 1px 0 #d9c8ff;
 }
 .token.verb-hint{ outline: 3px dashed #9aa7ff; outline-offset: 2px; }
+
+/* Focus the current step with a subtle ring color on hover/active */
+.tokens.mode--complete_subject .token:hover{ box-shadow: 0 3px 0 #b8d7ff; }
+.tokens.mode--complete_predicate .token:hover{ box-shadow: 0 3px 0 #ffc2cd; }
 
 /* Small badge indicating S/P */
 .sel-badge{
