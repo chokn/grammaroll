@@ -63,12 +63,21 @@ export default function App(){
 
         {item && (
           <div style={{marginTop: 14}}>
+            <div className="legend" aria-hidden>
+              <span className="swatch subject"/>
+              <span>Subject</span>
+              <span className="gap"/>
+              <span className="swatch predicate"/>
+              <span>Predicate</span>
+            </div>
             <div className="tokens">
               <TokenChips
                 tokens={item.tokens}
-                selected={sel[mode]}
+                selectedSubject={sel.complete_subject}
+                selectedPredicate={sel.complete_predicate}
                 onToggle={toggle}
                 verbHint={revealVerb ? new Set(item.spans.simple_predicate) : undefined}
+                mode={mode}
               />
             </div>
 

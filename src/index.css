@@ -9,6 +9,10 @@
   --text: #24415e;
   --muted: #6b86a0;
   --success: #e6f4ea;
+  --subject-bg: #e1efff; /* high-contrast blue */
+  --subject-border: #6fb1ff;
+  --predicate-bg: #ffe6ec; /* high-contrast pink */
+  --predicate-border: #ffadbb;
 }
 *{box-sizing:border-box}
 body{
@@ -71,13 +75,54 @@ h1{
   box-shadow: 0 3px 0 #f6d063;
   font-weight: 700;
   transition: transform .06s ease, box-shadow .06s ease, background .06s ease;
+  position: relative;
 }
-.token[aria-pressed="true"]{
-  transform: translateY(1px);
-  box-shadow: 0 1px 0 #f6d063;
-  background: #ffeaa8;
+.token.selected{ transform: translateY(1px); }
+.token.selected--complete_subject{
+  background: var(--subject-bg);
+  border-color: var(--subject-border);
+  box-shadow: 0 1px 0 #b8d7ff;
+  color: #0f2f54;
+}
+.token.selected--complete_predicate{
+  background: var(--predicate-bg);
+  border-color: var(--predicate-border);
+  box-shadow: 0 1px 0 #ffc2cd;
+  color: #3c2230;
+}
+.token.selected--both{
+  background:
+    repeating-linear-gradient(135deg, #fefefe 0 8px, #f6f6f6 8px 16px),
+    linear-gradient(0deg, #fff, #fff);
+  border-color: #b18cff; /* purple for conflict */
+  box-shadow: 0 1px 0 #d9c8ff;
 }
 .token.verb-hint{ outline: 3px dashed #9aa7ff; outline-offset: 2px; }
+
+/* Small badge indicating S/P */
+.sel-badge{
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  font-size: 10px;
+  line-height: 1;
+  padding: 3px 5px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,0.08);
+  background: #fff;
+  color: #1b2b3a;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+}
+.sel-badge.subject{ background: var(--subject-bg); border-color: var(--subject-border); }
+.sel-badge.predicate{ background: var(--predicate-bg); border-color: var(--predicate-border); }
+.sel-badge.both{ background: #efe9ff; border-color: #b18cff; }
+
+/* Legend */
+.legend{ display:flex; align-items:center; gap:8px; color: var(--muted); font-size: 13px; margin: 6px 0 8px; }
+.legend .gap{ width: 14px; }
+.legend .swatch{ display:inline-block; width: 14px; height: 14px; border-radius: 50%; border:2px solid transparent; }
+.legend .swatch.subject{ background: var(--subject-bg); border-color: var(--subject-border); }
+.legend .swatch.predicate{ background: var(--predicate-bg); border-color: var(--predicate-border); }
 .feedback{
   border-top: 1px dashed #d9e3ff;
   margin-top: 14px;
