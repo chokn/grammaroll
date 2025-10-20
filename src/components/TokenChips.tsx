@@ -1,3 +1,5 @@
+import { isPunct } from '../lib/text'
+
 export default function TokenChips({
   tokens,
   selectedSubject,
@@ -22,7 +24,7 @@ export default function TokenChips({
     missingPredicate?: Set<number>
   }
 }) {
-  const isPunct = (tok: string) => tok.length === 1 && ",.;:!?()[]{}'\"-—–".includes(tok)
+  // use shared isPunct from lib/text
   return (
     <>
       {tokens.map((t, i) => {

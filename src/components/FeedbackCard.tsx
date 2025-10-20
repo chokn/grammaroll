@@ -1,4 +1,5 @@
 import type { GradeResponse } from '../lib/scoring'
+import { isPunct } from '../lib/text'
 import TokenChips from './TokenChips'
 
 export default function FeedbackCard({
@@ -15,11 +16,19 @@ export default function FeedbackCard({
   const pct = (x:number)=> Math.round(x*100)
   const ansSub = new Set(result.answer.complete_subject)
   const ansPred = new Set(result.answer.complete_predicate)
-  // Compute diffs
-  const extraSubject = new Set([...studentSubject].filter(i=> !ansSub.has(i)))
-  const extraPredicate = new Set([...studentPredicate].filter(i=> !ansPred.has(i)))
-  const missingSubject = new Set([...ansSub].filter(i=> !studentSubject.has(i)))
-  const missingPredicate = new Set([...ansPred].filter(i=> !studentPredicate.has(i)))
+  const filterNonPunct = (set:Set<number>) => new Set([...set].filter(i => !isPunct(tokens[i])))
+
+  // Filter out punctuation indices before computing diffs
+  const fStudentSubject = filterNonPunct(studentSubject)
+  const fStudentPredicate = filterNonPunct(studentPredicate)
+  const fAnsSub = filterNonPunct(ansSub)
+  const fAnsPred = filterNonPunct(ansPred)
+
+  // Compute diffs (ignoring punctuation)
+  const extraSubject = new Set([...fStudentSubject].filter(i=> !fAnsSub.has(i)))
+  const extraPredicate = new Set([...fStudentPredicate].filter(i=> !fAnsPred.has(i)))
+  const missingSubject = new Set([...fAnsSub].filter(i=> !fStudentSubject.has(i)))
+  const missingPredicate = new Set([...fAnsPred].filter(i=> !fStudentPredicate.has(i)))
   return (
     <section className="feedback">
       <div className="badge">

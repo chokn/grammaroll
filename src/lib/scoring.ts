@@ -1,4 +1,5 @@
 import type { Sentence } from '../data/bank'
+import { isPunct } from './text'
 
 export type GradeRequest = {
   sentenceId: string
@@ -24,11 +25,6 @@ const iou = (a:number[], b:number[]) => {
   return union ? inter/union : 0
 }
 
-// Treat standalone punctuation tokens as neutral; students shouldn't need to select them.
-const isPunct = (tok: string) => {
-  // Common punctuation tokens present in this app's bank
-  return tok.length === 1 && ",.;:!?()[]{}'\"-—–".includes(tok)
-}
 const filterNonPunct = (indices:number[], tokens:string[]) => indices.filter(i => !isPunct(tokens[i]))
 
 export function grade(req: GradeRequest, item: Sentence): GradeResponse {
