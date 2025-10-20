@@ -109,7 +109,14 @@ export default function App(){
               )}
             </div>
 
-            {result && <FeedbackCard result={result} tokens={item.tokens} />}
+            {result && (
+              <FeedbackCard
+                result={result}
+                tokens={item.tokens}
+                studentSubject={sel.complete_subject}
+                studentPredicate={sel.complete_predicate}
+              />
+            )}
           </div>
         )}
       </div>

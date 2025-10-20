@@ -4,7 +4,9 @@ export default function TokenChips({
   selectedPredicate,
   onToggle,
   verbHint,
-  mode
+  mode,
+  readOnly,
+  diff
 }: {
   tokens: string[];
   selectedSubject: Set<number>;
@@ -12,6 +14,13 @@ export default function TokenChips({
   onToggle: (i:number)=>void;
   verbHint?: Set<number>;
   mode: 'complete_subject' | 'complete_predicate'
+  readOnly?: boolean;
+  diff?: {
+    extraSubject?: Set<number>
+    extraPredicate?: Set<number>
+    missingSubject?: Set<number>
+    missingPredicate?: Set<number>
+  }
 }) {
   const isPunct = (tok: string) => tok.length === 1 && ",.;:!?()[]{}'\"-—–".includes(tok)
   return (
@@ -30,17 +39,22 @@ export default function TokenChips({
           : ''
         const badge = inSub && inPred ? 'S/P' : inSub ? 'S' : inPred ? 'P' : ''
         const badgeClass = inSub && inPred ? ' both' : inSub ? ' subject' : inPred ? ' predicate' : ''
+        const isExtra = (diff?.extraSubject?.has(i) || diff?.extraPredicate?.has(i)) ?? false
+        const isMissing = (diff?.missingSubject?.has(i) || diff?.missingPredicate?.has(i)) ?? false
+        const diffClass = isExtra ? ' diff-extra' : isMissing ? ' diff-missing' : ''
         return (
           <button
             key={i}
-            onClick={()=>!punct && onToggle(i)}
+            onClick={()=>{ if(!readOnly && !punct) onToggle(i) }}
             aria-pressed={inSub || inPred}
-            disabled={punct}
-            className={`token${isVerb ? ' verb-hint':''}${selClass}`}
+            disabled={punct || readOnly}
+            className={`token${isVerb ? ' verb-hint':''}${selClass}${diffClass}`}
             title={isVerb ? 'Main verb' : undefined}
           >
             {t}
             {badge && <span className={`sel-badge${badgeClass}`}>{badge}</span>}
+            {isExtra && <span className="diff-badge extra" title="Extra">×</span>}
+            {isMissing && <span className="diff-badge missing" title="Missing">+</span>}
           </button>
         );
       })}

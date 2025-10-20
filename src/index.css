@@ -141,6 +141,18 @@ h1{
 .sel-badge.subject{ background: var(--subject-bg); border-color: var(--subject-border); }
 .sel-badge.predicate{ background: var(--predicate-bg); border-color: var(--predicate-border); }
 .sel-badge.both{ background: #efe9ff; border-color: #b18cff; }
+/* Diff indicators */
+.diff-badge{
+  position:absolute;
+  bottom: -7px; right: -7px;
+  width: 16px; height: 16px; border-radius: 50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size: 12px; font-weight: 900; line-height: 1;
+  border: 1px solid rgba(0,0,0,0.08);
+  background:#fff;
+}
+.diff-badge.extra{ color:#9c1c1c; background:#ffe9e9; border-color:#f0b3b3; }
+.diff-badge.missing{ color:#1c4a1c; background:#e9ffe9; border-color:#b3f0b3; }
 
 /* Legend */
 .legend{ display:flex; align-items:center; gap:8px; color: var(--muted); font-size: 13px; margin: 6px 0 8px; }
@@ -153,6 +165,10 @@ h1{
   margin-top: 14px;
   padding-top: 14px;
 }
+.answers{ display:flex; flex-direction:column; gap:10px; margin-top: 10px; }
+.answers-row{ display:flex; align-items:flex-start; gap:10px; }
+.answers-label{ flex:0 0 120px; font-weight:700; color:#375673; }
+.answers-row .tokens{ flex:1; }
 .badge{ display:inline-block; padding:4px 10px; border-radius: 999px; background:#e9f1ff; border:1px solid #c7d7ff; font-size: 13px; }
 .split{ margin-top:8px; }
 .split .lhs{ background:#fff7cc; padding:2px 6px; border-radius:6px; }
