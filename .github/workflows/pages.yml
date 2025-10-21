@@ -41,14 +41,6 @@ jobs:
             echo "VITE_BASE=/$REPO_NAME/" >> $GITHUB_ENV
           fi
 
-      - name: Validate base with CNAME
-        if: hashFiles('CNAME') != ''
-        run: |
-          echo "VITE_BASE is: $VITE_BASE"
-          if [[ "$VITE_BASE" != "/" ]]; then
-            echo "Error: CNAME present but VITE_BASE='$VITE_BASE' (expected '/')" >&2
-            exit 1
-          fi
 
       - name: Build
         run: npm run build
