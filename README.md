@@ -24,6 +24,8 @@ npm run deploy
 ```
 This runs `npm run build` then publishes `dist/` to the `gh-pages` branch.
 
+Note: Using GitHub Actions for Pages now; this line nudges a deploy.
+
 ## Structure
 - `src/data/bank.ts` – 5th-grade sentence bank with ground-truth spans
 - `src/lib/scoring.ts` – IoU scoring + helpers
