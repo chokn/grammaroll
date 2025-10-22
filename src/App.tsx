@@ -34,9 +34,29 @@ export default function App(){
   useEffect(() => { next() }, [])
 
   const toggle = (idx: number) => {
-    const nextSel = new Set(sel[mode])
-    nextSel.has(idx) ? nextSel.delete(idx) : nextSel.add(idx)
-    setSel({ ...sel, [mode]: nextSel })
+    const currentMode = mode
+    const otherMode = mode === 'complete_subject' ? 'complete_predicate' : 'complete_subject'
+
+    const nextSel = new Set(sel[currentMode])
+    const otherSel = new Set(sel[otherMode])
+
+    // If clicking a token already selected in current mode, deselect it
+    if (nextSel.has(idx)) {
+      nextSel.delete(idx)
+    } else {
+      // Otherwise, add to current mode and remove from other mode
+      nextSel.add(idx)
+      otherSel.delete(idx)
+    }
+
+    setSel({
+      [currentMode]: nextSel,
+      [otherMode]: otherSel
+    } as typeof sel)
+  }
+
+  const clearSelections = () => {
+    setSel({ complete_subject: new Set(), complete_predicate: new Set() })
   }
 
   const submit = () => {
@@ -97,6 +117,15 @@ export default function App(){
 
             <div className="row" style={{marginTop: 12}}>
               <button className="button ghost" onClick={()=>setRevealVerb(true)} disabled={revealVerb || step===0}>Hint: Show main verb</button>
+              {step < 2 && (
+                <button
+                  className="button ghost"
+                  onClick={clearSelections}
+                  disabled={sel.complete_subject.size === 0 && sel.complete_predicate.size === 0}
+                >
+                  Clear
+                </button>
+              )}
               {step > 0 && (
                 <button className="button" onClick={()=>{ setStep((s)=> (s>0 ? (s-1) as 0|1|2 : s)); setMode('complete_subject'); setResult(null); }}>Back</button>
               )}
