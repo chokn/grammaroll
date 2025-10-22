@@ -30,21 +30,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Set VITE_BASE for GitHub Pages
-        shell: bash
-        run: |
-          REPO_NAME="${{ github.event.repository.name }}"
-          # For project pages, serve under /<repo>/; for user/organization pages, serve at root
-          if [[ "$REPO_NAME" == *.github.io ]]; then
-            echo "VITE_BASE=/" >> $GITHUB_ENV
-          else
-            echo "VITE_BASE=/$REPO_NAME/" >> $GITHUB_ENV
-          fi
-
-
       - name: Build
         run: npm run build
-
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
