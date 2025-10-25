@@ -24,11 +24,13 @@ export default function Celebration({ visible, onDone }:{ visible:boolean; onDon
   if(!visible) return null
   return (
     <div className="celebration-overlay" aria-live="polite" role="status">
-      <div className="celebration-sky"/>
+      <div className="sr-only">Congratulations! Perfect score! 100% correct!</div>
+      <div className="celebration-sky" aria-hidden="true"/>
       {items.map(it=> (
         <span
           key={it.id}
           className="celebration-emoji"
+          aria-hidden="true"
           style={{
             left: `${it.left}%`,
             fontSize: `${it.size}px`,
@@ -43,7 +45,6 @@ export default function Celebration({ visible, onDone }:{ visible:boolean; onDon
           src={yayGif}
           alt="Cinnamoroll cheering 'Yay'"
           className="celebration-gif"
-          aria-hidden={false}
         />
         <div className="pop" style={{marginTop: 10}}>Perfect! Cinnamoroll cheers for you! ☁️💙</div>
         <div className="sub">100% correct — cloud nine vibes ✨</div>
