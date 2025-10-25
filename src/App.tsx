@@ -88,11 +88,11 @@ export default function App(){
         <div className="sub">Follow the steps: first select the complete subject, then the complete predicate, then check.</div>
 
         <div className="stepper" role="group" aria-label="Steps">
-          <div className={`step ${step === 0 ? 'active' : step > 0 ? 'done' : ''}`}>1<span>Subject</span></div>
+          <div className={`step ${step === 0 ? 'active' : step > 0 ? 'done' : ''}`} aria-current={step === 0 ? 'step' : undefined}>1<span>Subject</span></div>
           <div className="bar"/>
-          <div className={`step ${step === 1 ? 'active' : step > 1 ? 'done' : ''}`}>2<span>Predicate</span></div>
+          <div className={`step ${step === 1 ? 'active' : step > 1 ? 'done' : ''}`} aria-current={step === 1 ? 'step' : undefined}>2<span>Predicate</span></div>
           <div className="bar"/>
-          <div className={`step ${step === 2 ? 'active' : ''}`}>3<span>Check</span></div>
+          <div className={`step ${step === 2 ? 'active' : ''}`} aria-current={step === 2 ? 'step' : undefined}>3<span>Check</span></div>
         </div>
 
         {item && (
@@ -116,40 +116,87 @@ export default function App(){
             </div>
 
             <div className="row" style={{marginTop: 12}}>
-              <button className="button ghost" onClick={()=>setRevealVerb(true)} disabled={revealVerb || step===0}>Hint: Show main verb</button>
+              <button
+                className="button ghost"
+                onClick={()=>setRevealVerb(true)}
+                disabled={revealVerb || step===0}
+                aria-label={revealVerb ? "Main verb hint already shown" : "Show main verb hint"}
+              >
+                Hint: Show main verb
+              </button>
               {step < 2 && (
                 <button
                   className="button ghost"
                   onClick={clearSelections}
                   disabled={sel.complete_subject.size === 0 && sel.complete_predicate.size === 0}
+                  aria-label="Clear all selections"
                 >
                   Clear
                 </button>
               )}
               {step > 0 && (
-                <button className="button" onClick={()=>{ setStep((s)=> (s>0 ? (s-1) as 0|1|2 : s)); setMode('complete_subject'); setResult(null); }}>Back</button>
+                <button
+                  className="button"
+                  onClick={()=>{ setStep((s)=> (s>0 ? (s-1) as 0|1|2 : s)); setMode('complete_subject'); setResult(null); }}
+                  aria-label="Go back to previous step"
+                >
+                  Back
+                </button>
               )}
               {step === 0 && (
-                <button className="button primary" disabled={sel.complete_subject.size === 0} onClick={()=>{ setStep(1); setMode('complete_predicate'); }}>Next: Predicate</button>
+                <button
+                  className="button primary"
+                  disabled={sel.complete_subject.size === 0}
+                  onClick={()=>{ setStep(1); setMode('complete_predicate'); }}
+                  aria-label="Continue to select predicate"
+                >
+                  Next: Predicate
+                </button>
               )}
               {step === 1 && (
-                <button className="button primary" disabled={sel.complete_predicate.size === 0} onClick={submit}>Check</button>
+                <button
+                  className="button primary"
+                  disabled={sel.complete_predicate.size === 0}
+                  onClick={submit}
+                  aria-label="Check your answer"
+                >
+                  Check
+                </button>
               )}
               {step === 2 && (
-                <button className="button primary" onClick={next}>{result?.isCorrect ? 'Next sentence' : 'Try another'}</button>
+                <button
+                  className="button primary"
+                  onClick={next}
+                  aria-label={result?.isCorrect ? 'Move to next sentence' : 'Try another sentence'}
+                >
+                  {result?.isCorrect ? 'Next sentence' : 'Try another'}
+                </button>
               )}
               {step < 2 && (
-                <button className="button" onClick={next}>Skip</button>
+                <button
+                  className="button"
+                  onClick={next}
+                  aria-label="Skip this sentence and try a new one"
+                >
+                  Skip
+                </button>
               )}
             </div>
 
             {result && (
-              <FeedbackCard
-                result={result}
-                tokens={item.tokens}
-                studentSubject={sel.complete_subject}
-                studentPredicate={sel.complete_predicate}
-              />
+              <div role="status" aria-live="polite" aria-atomic="true">
+                <div className="sr-only">
+                  {result.isCorrect
+                    ? 'Correct! You identified both the subject and predicate correctly.'
+                    : `Incorrect. Subject accuracy: ${Math.round(result.correctness.complete_subject * 100)}%, Predicate accuracy: ${Math.round(result.correctness.complete_predicate * 100)}%. Please review the feedback below.`}
+                </div>
+                <FeedbackCard
+                  result={result}
+                  tokens={item.tokens}
+                  studentSubject={sel.complete_subject}
+                  studentPredicate={sel.complete_predicate}
+                />
+              </div>
             )}
           </div>
         )}

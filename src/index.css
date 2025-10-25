@@ -21,6 +21,18 @@ body{
   background: linear-gradient(180deg, var(--bg), #e3f1ff);
   color: var(--text);
 }
+/* Screen reader only content */
+.sr-only{
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
 .logo-title{
   display:flex; align-items:center; gap:12px; margin-bottom: 6px;
 }
@@ -77,6 +89,10 @@ h1{
   cursor: pointer;
   font-weight: 700;
 }
+.button:focus-visible{
+  outline: 3px solid #5aa7ff;
+  outline-offset: 2px;
+}
 .button[aria-pressed="true"]{
   background: #e9f1ff;
   border-color: var(--accent);
@@ -129,6 +145,16 @@ h1{
   box-shadow: 0 1px 0 #d9c8ff;
 }
 .token.verb-hint{ outline: 3px dashed #9aa7ff; outline-offset: 2px; }
+.token:focus-visible{
+  outline: 3px solid #5aa7ff;
+  outline-offset: 2px;
+  z-index: 1;
+}
+/* Ensure verb hint is visible with focus */
+.token.verb-hint:focus-visible{
+  outline: 3px solid #5aa7ff;
+  outline-offset: 2px;
+}
 
 /* Focus the current step with a subtle ring color on hover/active */
 .tokens.mode--complete_subject .token:hover{ box-shadow: 0 3px 0 #b8d7ff; }

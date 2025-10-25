@@ -30,15 +30,22 @@ export default function FeedbackCard({
   const missingSubject = new Set([...fAnsSub].filter(i=> !fStudentSubject.has(i)))
   const missingPredicate = new Set([...fAnsPred].filter(i=> !fStudentPredicate.has(i)))
   return (
-    <section className="feedback">
-      <div className="badge">
+    <section className="feedback" aria-labelledby="feedback-heading">
+      <h2 id="feedback-heading" style={{fontSize: '16px', fontWeight: 700, marginBottom: '8px', marginTop: 0}}>
+        {result.isCorrect ? 'Great job!' : 'Review your answer'}
+      </h2>
+      <div
+        className="badge"
+        role="group"
+        aria-label={`Accuracy scores: Subject ${pct(result.correctness.complete_subject)} percent, Predicate ${pct(result.correctness.complete_predicate)} percent. IoU means intersection over union, a measure of overlap accuracy.`}
+      >
         Subject IoU: <strong>{pct(result.correctness.complete_subject)}%</strong> ·
         Predicate IoU: <strong>{pct(result.correctness.complete_predicate)}%</strong>
       </div>
       <div className="answers">
         <div className="answers-row">
-          <div className="answers-label">Your selection</div>
-          <div className="tokens">
+          <h3 className="answers-label" id="your-selection-label">Your selection</h3>
+          <div className="tokens" aria-labelledby="your-selection-label">
             <TokenChips
               tokens={tokens}
               selectedSubject={fStudentSubject}
@@ -51,8 +58,8 @@ export default function FeedbackCard({
           </div>
         </div>
         <div className="answers-row">
-          <div className="answers-label">Correct answer</div>
-          <div className="tokens">
+          <h3 className="answers-label" id="correct-answer-label">Correct answer</h3>
+          <div className="tokens" aria-labelledby="correct-answer-label">
             <TokenChips
               tokens={tokens}
               selectedSubject={fAnsSub}
@@ -66,7 +73,7 @@ export default function FeedbackCard({
         </div>
       </div>
       {result.tips.length>0 && (
-        <ul style={{marginTop:8}}>
+        <ul style={{marginTop:8}} aria-label="Tips to improve">
           {result.tips.map((t,i)=>(<li key={i}>{t}</li>))}
         </ul>
       )}
