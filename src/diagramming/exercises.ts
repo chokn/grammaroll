@@ -120,25 +120,25 @@ const baseConstraints = () => [
 const complementConstraints = () => [
   {
     slotId: slotId('spine.complement'),
-    accepts: ['directObject', 'predicateAdjective', 'predicateNoun'],
+    accepts: ['directObject', 'predicateAdjective', 'predicateNoun'] as Role[],
   },
 ]
 
 const subjectModifierConstraints = () => [
   {
     slotId: slotId('spine.subject.mod[0]'),
-    accepts: ['modifier', 'subjectModifier'],
+    accepts: ['modifier', 'subjectModifier'] as Role[],
   },
   {
     slotId: slotId('spine.subject.mod[1]'),
-    accepts: ['modifier', 'subjectModifier'],
+    accepts: ['modifier', 'subjectModifier'] as Role[],
   },
 ]
 
 const verbModifierConstraints = () => [
   {
     slotId: slotId('spine.verb.mod[0]'),
-    accepts: ['modifier', 'verbModifier'],
+    accepts: ['modifier', 'verbModifier'] as Role[],
   },
 ]
 

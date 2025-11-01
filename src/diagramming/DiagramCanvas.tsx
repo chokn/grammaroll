@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
-import { useDrop } from 'react-dnd'
+import { useMemo, useRef, useState, type CSSProperties } from 'react'
+import { useDroppable } from '@dnd-kit/core'
 import type { DiagramSpec, Role, SlotId, Token } from './exercises'
 import type { Placement } from './validation'
 import { buildSlotLabel, getSlotDescription } from './a11y'
@@ -17,10 +17,6 @@ export interface DiagramCanvasProps {
   onClearSlot: (slot: SlotId) => void
   selectedTokenId: string | null
   announce: (message: string) => void
-}
-
-interface DragItem {
-  tokenId: string
 }
 
 const containerStyle: CSSProperties = {
@@ -79,28 +75,23 @@ const SlotGroup = ({
   selectedTokenId: string | null
   announce: (message: string) => void
 }) => {
-  const groupRef = useRef<SVGGElement>(null)
+  const groupRef = useRef<SVGGElement | null>(null)
   const [focused, setFocused] = useState(false)
-  const [{ isOver, canDrop }, drop] = useDrop({
-    accept: 'diagram-token',
-    canDrop: (item: DragItem) => canAccept(item.tokenId),
-    drop: (item: DragItem) => {
-      onDropToken(item.tokenId, node.slotId)
-    },
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-      canDrop: monitor.canDrop(),
-    }),
+  const { isOver, active, setNodeRef } = useDroppable({
+    id: node.slotId.path,
+    data: { slotId: node.slotId },
   })
 
-  useEffect(() => {
-    if (groupRef.current) {
-      drop(groupRef.current)
-    }
-  }, [drop])
+  const activeTokenId = (active?.data.current as { tokenId?: string } | undefined)?.tokenId ?? null
+  const canDrop = activeTokenId ? canAccept(activeTokenId) : true
 
-  const showHighlight = highlight || (isOver && canDrop)
-  const blocked = isOver && !canDrop
+  const attachRef = (element: SVGGElement | null) => {
+    groupRef.current = element
+    setNodeRef(element)
+  }
+
+  const showHighlight = highlight || (isOver && canDrop && !!activeTokenId)
+  const blocked = isOver && !canDrop && !!activeTokenId
 
   let fill = slotFill
   if (status === 'correct') fill = correctFill
@@ -112,7 +103,7 @@ const SlotGroup = ({
 
   return (
     <g
-      ref={groupRef}
+      ref={attachRef}
       tabIndex={0}
       focusable="true"
       role="button"

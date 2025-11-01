@@ -1,5 +1,5 @@
 import { memo, type CSSProperties } from 'react'
-import { useDrag } from 'react-dnd'
+import { useDraggable } from '@dnd-kit/core'
 import type { Role, Token } from './exercises'
 import { buildTokenLabel } from './a11y'
 
@@ -9,10 +9,6 @@ export interface TokenTrayProps {
   roles: Record<string, Role[]>
   selectedTokenId: string | null
   onSelectToken: (tokenId: string | null) => void
-}
-
-interface DragItem {
-  tokenId: string
 }
 
 const trayStyle: CSSProperties = {
@@ -52,12 +48,9 @@ const TokenButton = memo(function TokenButton({
   selected: boolean
   onSelect: (tokenId: string | null) => void
 }) {
-  const [{ isDragging }, dragRef] = useDrag({
-    type: 'diagram-token',
-    item: { tokenId: token.id } satisfies DragItem,
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
+  const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
+    id: token.id,
+    data: { tokenId: token.id },
   })
 
   const handleClick = () => {
@@ -66,7 +59,7 @@ const TokenButton = memo(function TokenButton({
 
   return (
     <button
-      ref={dragRef}
+      ref={setNodeRef}
       type="button"
       onClick={handleClick}
       onKeyDown={(event) => {
@@ -75,11 +68,14 @@ const TokenButton = memo(function TokenButton({
           onSelect(selected ? null : token.id)
         }
       }}
+      {...listeners}
+      {...attributes}
       aria-pressed={selected}
       aria-label={buildTokenLabel(token, roles)}
       style={{
         ...(selected ? selectedStyle : tokenStyle),
         opacity: isDragging ? 0.5 : 1,
+        touchAction: 'none',
       }}
     >
       {token.text}

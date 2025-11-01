@@ -1,6 +1,13 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react'
-import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
+import {
+  DndContext,
+  type DragEndEvent,
+  type DragStartEvent,
+  type DragCancelEvent,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core'
 import { Navigate } from 'react-router-dom'
 import { useDiagramStore } from '../stores/diagramStore'
 import type { GroundTruthMapping } from './exercises'
@@ -157,6 +164,19 @@ const DiagramPractice = () => {
     [placements, validationResult],
   )
 
+  const constraintMap = useMemo(
+    () => new Map(exercise.diagram.constraints.map((constraint) => [constraint.slotId.path, constraint.accepts])),
+    [exercise],
+  )
+
+  const canAcceptToken = (slotPath: string, tokenId: string) => {
+    const accepts = constraintMap.get(slotPath)
+    if (!accepts) return false
+    const tokenRoles = exercise.roles[tokenId]
+    if (!tokenRoles) return false
+    return tokenRoles.some((role) => accepts.includes(role))
+  }
+
   const handleDrop = (tokenId: string, slotId: GroundTruthMapping['placements'][number]['slotId']) => {
     setPlacement({ tokenId, slotId })
     setSelectedTokenId(null)
@@ -263,8 +283,39 @@ const DiagramPractice = () => {
     announce('Solution filled in.')
   }
 
+  const sensors = useSensors(useSensor(PointerSensor))
+
+  const handleDragStart = (event: DragStartEvent) => {
+    setSelectedTokenId(String(event.active.id))
+  }
+
+  const handleDragCancel = (_event: DragCancelEvent) => {
+    setSelectedTokenId(null)
+  }
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const tokenId = String(event.active.id)
+    const slotId = event.over?.data.current?.slotId as GroundTruthMapping['placements'][number]['slotId'] | undefined
+    if (!slotId) {
+      setSelectedTokenId(null)
+      return
+    }
+    if (!canAcceptToken(slotId.path, tokenId)) {
+      announce('That word does not match this slot.')
+      setFeedback('That word does not match this slot. Try a different spot.')
+      setSelectedTokenId(null)
+      return
+    }
+    handleDrop(tokenId, slotId)
+  }
+
   return (
-    <DndProvider backend={HTML5Backend}>
+    <DndContext
+      sensors={sensors}
+      onDragStart={handleDragStart}
+      onDragCancel={handleDragCancel}
+      onDragEnd={handleDragEnd}
+    >
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: '16px', alignItems: 'start' }}>
         <div>
           <h2>{exercise.sentence}</h2>
@@ -351,7 +402,7 @@ const DiagramPractice = () => {
         </div>
       </div>
       {region}
-    </DndProvider>
+    </DndContext>
   )
 }
 
