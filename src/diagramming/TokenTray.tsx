@@ -1,5 +1,6 @@
 import { memo, type CSSProperties } from 'react'
 import { useDraggable } from '@dnd-kit/core'
+import { CSS } from '@dnd-kit/utilities'
 import type { Role, Token } from './exercises'
 import { buildTokenLabel } from './a11y'
 
@@ -48,7 +49,7 @@ const TokenButton = memo(function TokenButton({
   selected: boolean
   onSelect: (tokenId: string | null) => void
 }) {
-  const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
+  const { attributes, listeners, setNodeRef, isDragging, transform } = useDraggable({
     id: token.id,
     data: { tokenId: token.id },
   })
@@ -76,6 +77,8 @@ const TokenButton = memo(function TokenButton({
         ...(selected ? selectedStyle : tokenStyle),
         opacity: isDragging ? 0.5 : 1,
         touchAction: 'none',
+        transform: transform ? CSS.Translate.toString(transform) : undefined,
+        transition: isDragging ? 'none' : undefined,
       }}
     >
       {token.text}

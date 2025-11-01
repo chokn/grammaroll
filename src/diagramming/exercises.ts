@@ -101,10 +101,10 @@ const complementNodes = () => [
 ]
 
 const subjectModifierNodes = () => [
-  { id: 'subject-mod-line-0', type: 'line', x: 120, y: 154, w: 92, h: 192 } as const,
-  { id: 'subject-mod-slot-0', type: 'slot', x: 70, y: 188, w: 90, h: 40, slotId: slotId('spine.subject.mod[0]') } as const,
-  { id: 'subject-mod-line-1', type: 'line', x: 150, y: 160, w: 120, h: 205 } as const,
-  { id: 'subject-mod-slot-1', type: 'slot', x: 110, y: 202, w: 90, h: 40, slotId: slotId('spine.subject.mod[1]') } as const,
+  { id: 'subject-mod-line-0', type: 'line', x: 120, y: 154, w: 90, h: 208 } as const,
+  { id: 'subject-mod-slot-0', type: 'slot', x: 40, y: 188, w: 100, h: 40, slotId: slotId('spine.subject.mod[0]') } as const,
+  { id: 'subject-mod-line-1', type: 'line', x: 150, y: 160, w: 200, h: 226 } as const,
+  { id: 'subject-mod-slot-1', type: 'slot', x: 150, y: 206, w: 100, h: 40, slotId: slotId('spine.subject.mod[1]') } as const,
 ]
 
 const verbModifierNodes = () => [
