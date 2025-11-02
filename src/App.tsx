@@ -5,6 +5,9 @@ import { grade, type GradeResponse } from './lib/scoring'
 import TokenChips from './components/TokenChips'
 import FeedbackCard from './components/FeedbackCard'
 import Celebration from './components/Celebration'
+import { useGrammaroll } from './features/useGrammaroll'
+import { StatsBadge, StatsPanel } from './features/StatsPanel'
+import './features/stats.css'
 
 type Mode = 'complete_subject' | 'complete_predicate'
 
@@ -19,6 +22,10 @@ export default function App(){
   const [revealVerb, setRevealVerb] = useState(false)
   const [step, setStep] = useState<0 | 1 | 2>(0) // 0: subject, 1: predicate, 2: review
   const [celebrate, setCelebrate] = useState(false)
+  const [showStats, setShowStats] = useState(false)
+
+  // Initialize score tracking and adaptive difficulty
+  const { startQuestion, submitAnswer, currentLevel, progress } = useGrammaroll()
 
   const next = () => {
     const pick = BANK[Math.floor(Math.random() * BANK.length)]
@@ -29,6 +36,7 @@ export default function App(){
     setMode('complete_subject')
     setStep(0)
     setCelebrate(false)
+    startQuestion() // Start timing for new question
   }
 
   useEffect(() => { next() }, [])
@@ -71,6 +79,28 @@ export default function App(){
     setResult(res)
     setStep(2)
     if(res.isCorrect) setCelebrate(true)
+
+    // Track answer for scoring and adaptive difficulty
+    const userSubject = (Array.from(sel.complete_subject) as number[])
+      .sort((a, b) => a - b)
+      .map(i => item.tokens[i])
+      .join(' ')
+    const userPredicate = (Array.from(sel.complete_predicate) as number[])
+      .sort((a, b) => a - b)
+      .map(i => item.tokens[i])
+      .join(' ')
+    const correctSubject = item.spans.complete_subject
+      .map(i => item.tokens[i])
+      .join(' ')
+    const correctPredicate = item.spans.complete_predicate
+      .map(i => item.tokens[i])
+      .join(' ')
+
+    submitAnswer(
+      item.tokens.join(' '),
+      { subject: userSubject, predicate: userPredicate },
+      { subject: correctSubject, predicate: correctPredicate }
+    )
   }
 
   return (
@@ -84,6 +114,27 @@ export default function App(){
             <div className="tagline">Learn grammar on cloud nine ☁️</div>
           </div>
         </div>
+
+        {/* Stats Badge */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+          <StatsBadge />
+          <button
+            className="button ghost"
+            onClick={() => setShowStats(!showStats)}
+            aria-label={showStats ? "Hide stats" : "Show stats"}
+            style={{ fontSize: '0.9rem' }}
+          >
+            {showStats ? 'Hide Stats' : 'View Stats'}
+          </button>
+        </div>
+
+        {/* Stats Panel */}
+        {showStats && (
+          <div style={{ marginBottom: '1.5rem' }}>
+            <StatsPanel />
+          </div>
+        )}
+
         <h1>Subject vs. Predicate (Grade 5)</h1>
         <div className="sub">Follow the steps: first select the complete subject, then the complete predicate, then check.</div>
 
