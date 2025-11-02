@@ -87,7 +87,7 @@ const SlotGroup = ({
 
   const attachRef = (element: SVGGElement | null) => {
     groupRef.current = element
-    setNodeRef(element)
+    setNodeRef(element as unknown as HTMLElement | null)
   }
 
   const showHighlight = highlight || (isOver && canDrop && !!activeTokenId)
