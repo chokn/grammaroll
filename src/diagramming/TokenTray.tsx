@@ -30,6 +30,7 @@ const tokenStyle: CSSProperties = {
   fontSize: '0.95rem',
   cursor: 'grab',
   outlineOffset: '2px',
+  position: 'relative',
 }
 
 const selectedStyle: CSSProperties = {
@@ -78,6 +79,7 @@ const TokenButton = memo(function TokenButton({
         opacity: isDragging ? 0.5 : 1,
         touchAction: 'none',
         transform: transform ? CSS.Translate.toString(transform) : undefined,
+        zIndex: isDragging ? 1200 : 1,
         transition: isDragging ? 'none' : undefined,
       }}
     >
