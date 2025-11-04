@@ -26,6 +26,8 @@ const containerStyle: CSSProperties = {
   padding: '12px',
   position: 'relative',
   minHeight: 260,
+  maxWidth: '100%',
+  overflow: 'auto',
 }
 
 const textStyle: CSSProperties = {
@@ -216,7 +218,15 @@ const DiagramCanvas = ({
 
   return (
     <div style={containerStyle}>
-      <svg width="100%" height="100%" viewBox="0 0 480 260" role="img" aria-label="Sentence diagram canvas">
+      <svg
+        width="100%"
+        height="100%"
+        viewBox="0 0 480 260"
+        preserveAspectRatio="xMidYMid meet"
+        style={{ minWidth: '100%', height: 'auto', minHeight: 260 }}
+        role="img"
+        aria-label="Sentence diagram canvas"
+      >
         {spec.nodes.map((node) => renderNode(node))}
       </svg>
     </div>

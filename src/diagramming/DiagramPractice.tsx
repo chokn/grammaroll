@@ -20,8 +20,8 @@ import { useAnnouncer } from './a11y'
 import { validate, type Placement, type ValidationResult } from './validation'
 
 const actionsStyle: CSSProperties = {
-  display: 'flex',
-  flexWrap: 'wrap',
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))',
   gap: '8px',
   marginTop: '16px',
 }
@@ -316,9 +316,17 @@ const DiagramPractice = () => {
       onDragCancel={handleDragCancel}
       onDragEnd={handleDragEnd}
     >
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: '16px', alignItems: 'start' }}>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr',
+          gap: '16px',
+          alignItems: 'start',
+        }}
+        className="diagram-practice-container"
+      >
         <div>
-          <h2>{exercise.sentence}</h2>
+          <h2 style={{ fontSize: 'clamp(1.25rem, 4vw, 1.75rem)' }}>{exercise.sentence}</h2>
           <div style={instructionsStyle}>Drag each word onto the diagram or select a token and press Enter on a slot.</div>
           <TokenTray
             tokens={tokens}
@@ -388,20 +396,25 @@ const DiagramPractice = () => {
           </div>
           <Progress stats={stats[level]} level={level} />
         </div>
-        <div>
-          <Toolbox
-            exercise={exercise}
-            hintStep={hintStep}
-            onHint={handleHint}
-            hintDisabled={hintStep >= 3 || success}
-            hintMessage={hintMessage}
-            onShowSolution={handleShowSolution}
-            canShowSolution={failedChecks >= 2 || success}
-            failedChecks={failedChecks}
-          />
-        </div>
+        <Toolbox
+          exercise={exercise}
+          hintStep={hintStep}
+          onHint={handleHint}
+          hintDisabled={hintStep >= 3 || success}
+          hintMessage={hintMessage}
+          onShowSolution={handleShowSolution}
+          canShowSolution={failedChecks >= 2 || success}
+          failedChecks={failedChecks}
+        />
       </div>
       {region}
+      <style>{`
+        @media (min-width: 768px) {
+          .diagram-practice-container {
+            grid-template-columns: 1fr 320px !important;
+          }
+        }
+      `}</style>
     </DndContext>
   )
 }
