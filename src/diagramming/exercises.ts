@@ -486,6 +486,317 @@ const exercises: Exercise[] = [
       },
     ],
   },
+  // Additional Level 1 exercises
+  {
+    id: 'l1-thunder-rumbles',
+    level: 1,
+    sentence: 'Thunder rumbles.',
+    tokens: [
+      { id: 'thunder', text: 'Thunder', pos: ['noun'] },
+      { id: 'rumbles', text: 'rumbles', pos: ['verb'] },
+    ],
+    roles: {
+      thunder: ['subject'],
+      rumbles: ['verb'],
+    },
+    diagram: {
+      nodes: baseSpineNodes(),
+      constraints: baseConstraints(),
+    },
+    answer: {
+      placements: [
+        { tokenId: 'thunder', slotId: slotId('spine.subject') },
+        { tokenId: 'rumbles', slotId: slotId('spine.verb') },
+      ],
+    },
+  },
+  {
+    id: 'l1-stars-twinkle',
+    level: 1,
+    sentence: 'Stars twinkle.',
+    tokens: [
+      { id: 'stars', text: 'Stars', pos: ['noun'] },
+      { id: 'twinkle', text: 'twinkle', pos: ['verb'] },
+    ],
+    roles: {
+      stars: ['subject'],
+      twinkle: ['verb'],
+    },
+    diagram: {
+      nodes: baseSpineNodes(),
+      constraints: baseConstraints(),
+    },
+    answer: {
+      placements: [
+        { tokenId: 'stars', slotId: slotId('spine.subject') },
+        { tokenId: 'twinkle', slotId: slotId('spine.verb') },
+      ],
+    },
+  },
+  {
+    id: 'l1-puppies-play',
+    level: 1,
+    sentence: 'Puppies play.',
+    tokens: [
+      { id: 'puppies', text: 'Puppies', pos: ['noun'] },
+      { id: 'play', text: 'play', pos: ['verb'] },
+    ],
+    roles: {
+      puppies: ['subject'],
+      play: ['verb'],
+    },
+    diagram: {
+      nodes: baseSpineNodes(),
+      constraints: baseConstraints(),
+    },
+    answer: {
+      placements: [
+        { tokenId: 'puppies', slotId: slotId('spine.subject') },
+        { tokenId: 'play', slotId: slotId('spine.verb') },
+      ],
+    },
+  },
+  // Additional Level 2 exercises
+  {
+    id: 'l2-students-study-math',
+    level: 2,
+    sentence: 'Students study math.',
+    tokens: [
+      { id: 'students', text: 'Students', pos: ['noun'] },
+      { id: 'study', text: 'study', pos: ['verb'] },
+      { id: 'math', text: 'math', pos: ['noun'] },
+    ],
+    roles: {
+      students: ['subject'],
+      study: ['verb'],
+      math: ['directObject'],
+    },
+    diagram: {
+      nodes: [...baseSpineNodes(), ...complementNodes()],
+      constraints: [...baseConstraints(), ...complementConstraints()],
+    },
+    answer: {
+      placements: [
+        { tokenId: 'students', slotId: slotId('spine.subject') },
+        { tokenId: 'study', slotId: slotId('spine.verb') },
+        { tokenId: 'math', slotId: slotId('spine.complement') },
+      ],
+    },
+  },
+  {
+    id: 'l2-roses-smell-sweet',
+    level: 2,
+    sentence: 'Roses smell sweet.',
+    tokens: [
+      { id: 'roses', text: 'Roses', pos: ['noun'] },
+      { id: 'smell', text: 'smell', pos: ['verb'] },
+      { id: 'sweet', text: 'sweet', pos: ['adjective'] },
+    ],
+    roles: {
+      roses: ['subject'],
+      smell: ['verb'],
+      sweet: ['predicateAdjective'],
+    },
+    diagram: {
+      nodes: [...baseSpineNodes(), ...complementNodes()],
+      constraints: [...baseConstraints(), ...complementConstraints()],
+    },
+    answer: {
+      placements: [
+        { tokenId: 'roses', slotId: slotId('spine.subject') },
+        { tokenId: 'smell', slotId: slotId('spine.verb') },
+        { tokenId: 'sweet', slotId: slotId('spine.complement') },
+      ],
+    },
+  },
+  {
+    id: 'l2-sarah-bakes-cookies',
+    level: 2,
+    sentence: 'Sarah bakes cookies.',
+    tokens: [
+      { id: 'sarah', text: 'Sarah', pos: ['noun'] },
+      { id: 'bakes', text: 'bakes', pos: ['verb'] },
+      { id: 'cookies', text: 'cookies', pos: ['noun'] },
+    ],
+    roles: {
+      sarah: ['subject'],
+      bakes: ['verb'],
+      cookies: ['directObject'],
+    },
+    diagram: {
+      nodes: [...baseSpineNodes(), ...complementNodes()],
+      constraints: [...baseConstraints(), ...complementConstraints()],
+    },
+    answer: {
+      placements: [
+        { tokenId: 'sarah', slotId: slotId('spine.subject') },
+        { tokenId: 'bakes', slotId: slotId('spine.verb') },
+        { tokenId: 'cookies', slotId: slotId('spine.complement') },
+      ],
+    },
+  },
+  {
+    id: 'l2-ocean-seems-endless',
+    level: 2,
+    sentence: 'The ocean seems endless.',
+    tokens: [
+      { id: 'the', text: 'The', pos: ['article'] },
+      { id: 'ocean', text: 'ocean', pos: ['noun'] },
+      { id: 'seems', text: 'seems', pos: ['verb'] },
+      { id: 'endless', text: 'endless', pos: ['adjective'] },
+    ],
+    roles: {
+      the: ['modifier', 'subjectModifier'],
+      ocean: ['subject'],
+      seems: ['verb'],
+      endless: ['predicateAdjective'],
+    },
+    diagram: {
+      nodes: [...baseSpineNodes(), ...complementNodes()],
+      constraints: [...baseConstraints(), ...complementConstraints()],
+    },
+    answer: {
+      placements: [
+        { tokenId: 'ocean', slotId: slotId('spine.subject') },
+        { tokenId: 'seems', slotId: slotId('spine.verb') },
+        { tokenId: 'endless', slotId: slotId('spine.complement') },
+      ],
+    },
+  },
+  // Additional Level 3 exercises
+  {
+    id: 'l3-brave-knight-fought',
+    level: 3,
+    sentence: 'The brave knight fought.',
+    tokens: [
+      { id: 'the', text: 'The', pos: ['article'] },
+      { id: 'brave', text: 'brave', pos: ['adjective'] },
+      { id: 'knight', text: 'knight', pos: ['noun'] },
+      { id: 'fought', text: 'fought', pos: ['verb'] },
+    ],
+    roles: {
+      the: ['modifier', 'subjectModifier'],
+      brave: ['modifier', 'subjectModifier'],
+      knight: ['subject'],
+      fought: ['verb'],
+    },
+    diagram: {
+      nodes: [...baseSpineNodes(), ...subjectModifierNodes()],
+      constraints: [...baseConstraints(), ...subjectModifierConstraints()],
+    },
+    answer: {
+      placements: [
+        { tokenId: 'knight', slotId: slotId('spine.subject') },
+        { tokenId: 'fought', slotId: slotId('spine.verb') },
+        { tokenId: 'the', slotId: slotId('spine.subject.mod[0]') },
+        { tokenId: 'brave', slotId: slotId('spine.subject.mod[1]') },
+      ],
+    },
+    acceptedVariants: [
+      {
+        placements: [
+          { tokenId: 'knight', slotId: slotId('spine.subject') },
+          { tokenId: 'fought', slotId: slotId('spine.verb') },
+          { tokenId: 'brave', slotId: slotId('spine.subject.mod[0]') },
+          { tokenId: 'the', slotId: slotId('spine.subject.mod[1]') },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'l3-jack-runs-quickly',
+    level: 3,
+    sentence: 'Jack runs quickly.',
+    tokens: [
+      { id: 'jack', text: 'Jack', pos: ['noun'] },
+      { id: 'runs', text: 'runs', pos: ['verb'] },
+      { id: 'quickly', text: 'quickly', pos: ['adverb'] },
+    ],
+    roles: {
+      jack: ['subject'],
+      runs: ['verb'],
+      quickly: ['modifier', 'verbModifier'],
+    },
+    diagram: {
+      nodes: [...baseSpineNodes(), ...verbModifierNodes()],
+      constraints: [...baseConstraints(), ...verbModifierConstraints()],
+    },
+    answer: {
+      placements: [
+        { tokenId: 'jack', slotId: slotId('spine.subject') },
+        { tokenId: 'runs', slotId: slotId('spine.verb') },
+        { tokenId: 'quickly', slotId: slotId('spine.verb.mod[0]') },
+      ],
+    },
+  },
+  {
+    id: 'l3-warm-sun-shines',
+    level: 3,
+    sentence: 'The warm sun shines.',
+    tokens: [
+      { id: 'the', text: 'The', pos: ['article'] },
+      { id: 'warm', text: 'warm', pos: ['adjective'] },
+      { id: 'sun', text: 'sun', pos: ['noun'] },
+      { id: 'shines', text: 'shines', pos: ['verb'] },
+    ],
+    roles: {
+      the: ['modifier', 'subjectModifier'],
+      warm: ['modifier', 'subjectModifier'],
+      sun: ['subject'],
+      shines: ['verb'],
+    },
+    diagram: {
+      nodes: [...baseSpineNodes(), ...subjectModifierNodes()],
+      constraints: [...baseConstraints(), ...subjectModifierConstraints()],
+    },
+    answer: {
+      placements: [
+        { tokenId: 'sun', slotId: slotId('spine.subject') },
+        { tokenId: 'shines', slotId: slotId('spine.verb') },
+        { tokenId: 'the', slotId: slotId('spine.subject.mod[0]') },
+        { tokenId: 'warm', slotId: slotId('spine.subject.mod[1]') },
+      ],
+    },
+    acceptedVariants: [
+      {
+        placements: [
+          { tokenId: 'sun', slotId: slotId('spine.subject') },
+          { tokenId: 'shines', slotId: slotId('spine.verb') },
+          { tokenId: 'warm', slotId: slotId('spine.subject.mod[0]') },
+          { tokenId: 'the', slotId: slotId('spine.subject.mod[1]') },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'l3-young-dancers-performed-gracefully',
+    level: 3,
+    sentence: 'Young dancers performed gracefully.',
+    tokens: [
+      { id: 'young', text: 'Young', pos: ['adjective'] },
+      { id: 'dancers', text: 'dancers', pos: ['noun'] },
+      { id: 'performed', text: 'performed', pos: ['verb'] },
+      { id: 'gracefully', text: 'gracefully', pos: ['adverb'] },
+    ],
+    roles: {
+      young: ['modifier', 'subjectModifier'],
+      dancers: ['subject'],
+      performed: ['verb'],
+      gracefully: ['modifier', 'verbModifier'],
+    },
+    diagram: {
+      nodes: [...baseSpineNodes(), ...subjectModifierNodes(), ...verbModifierNodes()],
+      constraints: [...baseConstraints(), ...subjectModifierConstraints(), ...verbModifierConstraints()],
+    },
+    answer: {
+      placements: [
+        { tokenId: 'dancers', slotId: slotId('spine.subject') },
+        { tokenId: 'performed', slotId: slotId('spine.verb') },
+        { tokenId: 'young', slotId: slotId('spine.subject.mod[0]') },
+        { tokenId: 'gracefully', slotId: slotId('spine.verb.mod[0]') },
+      ],
+    },
+  },
 ]
 
 export const LEVELS = levelInfo
