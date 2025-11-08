@@ -108,5 +108,109 @@ export const BANK: Sentence[] = [
     spans: { complete_subject:[0,1,2,3,4,5], simple_subject:[1], complete_predicate:[6,7,8,9,10,11,12], simple_predicate:[6,8] },
     tags: ['object_pronoun','verb_chain','time_adverb_in_predicate'],
     level: 2
+  },
+  {
+    id: 's013',
+    text: 'Every student in the classroom raised their hand.',
+    tokens: ['Every','student','in','the','classroom','raised','their','hand','.'],
+    spans: { complete_subject:[0,1,2,3,4], simple_subject:[1], complete_predicate:[5,6,7,8], simple_predicate:[5] },
+    tags: ['prep_phrase_in_subject','object_np_in_predicate'],
+    level: 1
+  },
+  {
+    id: 's014',
+    text: 'The fluffy white clouds drifted across the blue sky.',
+    tokens: ['The','fluffy','white','clouds','drifted','across','the','blue','sky','.'],
+    spans: { complete_subject:[0,1,2,3], simple_subject:[3], complete_predicate:[4,5,6,7,8,9], simple_predicate:[4] },
+    tags: ['multiple_adjectives','prep_phrase_in_predicate'],
+    level: 1
+  },
+  {
+    id: 's015',
+    text: 'My younger brother and his friend built a treehouse yesterday.',
+    tokens: ['My','younger','brother','and','his','friend','built','a','treehouse','yesterday','.'],
+    spans: { complete_subject:[0,1,2,3,4,5], simple_subject:[2,5], complete_predicate:[6,7,8,9,10], simple_predicate:[6] },
+    tags: ['compound_subject','time_adverb_in_predicate'],
+    level: 2
+  },
+  {
+    id: 's016',
+    text: 'The old wooden bridge near the park was rebuilt last summer.',
+    tokens: ['The','old','wooden','bridge','near','the','park','was','rebuilt','last','summer','.'],
+    spans: { complete_subject:[0,1,2,3,4,5,6], simple_subject:[3], complete_predicate:[7,8,9,10,11], simple_predicate:[7,8] },
+    tags: ['passive_voice','prep_phrase_in_subject','time_phrase_in_predicate'],
+    level: 2
+  },
+  {
+    id: 's017',
+    text: 'Running quickly down the street seemed dangerous.',
+    tokens: ['Running','quickly','down','the','street','seemed','dangerous','.'],
+    spans: { complete_subject:[0,1,2,3,4], simple_subject:[0], complete_predicate:[5,6,7], simple_predicate:[5] },
+    tags: ['gerund_subject','adverb_in_subject','predicate_adjective'],
+    level: 3
+  },
+  {
+    id: 's018',
+    text: 'The package from my grandmother arrived this morning.',
+    tokens: ['The','package','from','my','grandmother','arrived','this','morning','.'],
+    spans: { complete_subject:[0,1,2,3,4], simple_subject:[1], complete_predicate:[5,6,7,8], simple_predicate:[5] },
+    tags: ['prep_phrase_in_subject','time_phrase_in_predicate'],
+    level: 1
+  },
+  {
+    id: 's019',
+    text: 'All the colorful leaves on the ground were swept away.',
+    tokens: ['All','the','colorful','leaves','on','the','ground','were','swept','away','.'],
+    spans: { complete_subject:[0,1,2,3,4,5,6], simple_subject:[3], complete_predicate:[7,8,9,10], simple_predicate:[7,8] },
+    tags: ['passive_voice','prep_phrase_in_subject','phrasal_verb'],
+    level: 2
+  },
+  {
+    id: 's020',
+    text: 'The team captain and the coach discussed the game plan carefully.',
+    tokens: ['The','team','captain','and','the','coach','discussed','the','game','plan','carefully','.'],
+    spans: { complete_subject:[0,1,2,3,4,5], simple_subject:[2,5], complete_predicate:[6,7,8,9,10,11], simple_predicate:[6] },
+    tags: ['compound_subject','adverb_in_predicate'],
+    level: 2
+  },
+  {
+    id: 's021',
+    text: 'It is important to arrive on time.',
+    tokens: ['It','is','important','to','arrive','on','time','.'],
+    spans: { complete_subject:[3,4,5,6], simple_subject:[4], complete_predicate:[1,2,7], simple_predicate:[1] },
+    tags: ['expletive_it','infinitive_subject','predicate_adjective'],
+    level: 3
+  },
+  {
+    id: 's022',
+    text: 'The tall trees along the river provide shade during summer.',
+    tokens: ['The','tall','trees','along','the','river','provide','shade','during','summer','.'],
+    spans: { complete_subject:[0,1,2,3,4,5], simple_subject:[2], complete_predicate:[6,7,8,9,10], simple_predicate:[6] },
+    tags: ['prep_phrase_in_subject','prep_phrase_in_predicate'],
+    level: 1
+  },
+  {
+    id: 's023',
+    text: 'Neither my friend nor I understood the math problem.',
+    tokens: ['Neither','my','friend','nor','I','understood','the','math','problem','.'],
+    spans: { complete_subject:[0,1,2,3,4], simple_subject:[2,4], complete_predicate:[5,6,7,8,9], simple_predicate:[5] },
+    tags: ['correlative_conjunction','compound_subject'],
+    level: 3
+  },
+  {
+    id: 's024',
+    text: 'The red bicycle in the garage belongs to my sister.',
+    tokens: ['The','red','bicycle','in','the','garage','belongs','to','my','sister','.'],
+    spans: { complete_subject:[0,1,2,3,4,5], simple_subject:[2], complete_predicate:[6,7,8,9,10], simple_predicate:[6] },
+    tags: ['prep_phrase_in_subject','prep_phrase_in_predicate'],
+    level: 1
+  },
+  {
+    id: 's025',
+    text: 'The children at the playground laughed and played happily.',
+    tokens: ['The','children','at','the','playground','laughed','and','played','happily','.'],
+    spans: { complete_subject:[0,1,2,3,4], simple_subject:[1], complete_predicate:[5,6,7,8,9], simple_predicate:[5,7] },
+    tags: ['compound_predicate','prep_phrase_in_subject','adverb_in_predicate'],
+    level: 2
   }
 ]
